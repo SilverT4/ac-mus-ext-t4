@@ -63,7 +63,7 @@ window.onload = function () {
 	onClickElements.forEach(el => {
 		document.getElementById(el).onclick = saveOptions;
 	});
-	document.getElementById('update-location').onclick = validateWeather;
+	//document.getElementById('update-location').onclick = validateWeather;
 	document.getElementById('tab-audio-reduce-value').onchange = saveOptions;
 
 	exclamationElements.forEach(el => {
@@ -96,7 +96,7 @@ window.onload = function () {
 
 	document.getElementById('kk-songs-selection-enable').onchange = saveOptions;
 	document.getElementById('kk-songs-selection').onchange = saveOptions;
-	document.getElementById('weather-provider').onchange = displayThirdBox;
+	//document.getElementById('weather-provider').onchange = displayThirdBox;
 
 	const kkSongsSelect = document.getElementById('kk-songs-selection');
 	KKSongList.forEach((song) => {
@@ -107,7 +107,7 @@ window.onload = function () {
 	});
 }
 
-function displayThirdBox() {
+/*function displayThirdBox() {
 	if (document.getElementById('weather-provider').value == 'owm-proxy') {
 		Array.from(document.getElementsByClassName('provider-url')).forEach(element => { element.style = 'display:none;' })
 		Array.from(document.getElementsByClassName('api-key')).forEach(element => { element.style = 'display:none;' })
@@ -121,7 +121,7 @@ function displayThirdBox() {
 		Array.from(document.getElementsByClassName('provider-url')).forEach(element => { element.style = 'display:none;' })
 		Array.from(document.getElementsByClassName('api-key')).forEach(element => { element.style = '' })
 	}
-}
+}*/
 
 function saveOptions() {
 	let volume = document.getElementById('volume').value;
@@ -132,8 +132,8 @@ function saveOptions() {
 	let enableTownTune = document.getElementById('enable-town-tune').checked;
 	let absoluteTownTune = document.getElementById('absolute-town-tune').checked;
 	let townTuneVolume   = document.getElementById('townTuneVolume').value;
-	let zipCode = document.getElementById('zip-code').value;
-	let countryCode = document.getElementById('country-code').value;
+	//let zipCode = document.getElementById('zip-code').value;
+	//let countryCode = document.getElementById('country-code').value;
 	let enableBadgeText = document.getElementById('enable-badge').checked;
 	let enableBackground = document.getElementById('enable-background').checked;
 	let tabAudioReduceValue = document.getElementById('tab-audio-reduce-value').value;
@@ -197,8 +197,8 @@ function saveOptions() {
 		enableTownTune,
 		absoluteTownTune,
 		townTuneVolume,
-		zipCode,
-		countryCode,
+		/*zipCode,
+		countryCode,*/
 		enableBadgeText,
 		enableBackground,
 		tabAudio,
@@ -244,9 +244,9 @@ function restoreOptions() {
 		document.getElementById('absolute-town-tune').checked = items.absoluteTownTune;
 		document.getElementById('townTuneVolume').value = items.townTuneVolume;
 		document.getElementById('townTuneVolumeText').innerText = `${formatPercentage(items.townTuneVolume*100)}`;
-		document.getElementById('zip-code').value = items.zipCode;
-		document.getElementById('country-code').value = items.countryCode;
-		document.getElementById('weather-provider').value = items.weatherProvider;
+		//document.getElementById('zip-code').value = items.zipCode;
+		//document.getElementById('country-code').value = items.countryCode;
+		//document.getElementById('weather-provider').value = items.weatherProvider;
 		document.getElementById('enable-badge').checked = items.enableBadgeText;
 		document.getElementById('enable-background').checked = navigator.userAgentData ? items.enableBackground : false;
 		document.getElementById('tab-audio-' + items.tabAudio).checked = true;
@@ -310,201 +310,9 @@ async function getPermissions(url) {
 let city;
 let country;
 
-function validateWeather() {
-	let updateLocationEl = document.getElementById('update-location');
-	updateLocationEl.textContent = "Validating...";
-	updateLocationEl.disabled = true;
-
-	let weatherProvider = document.getElementById('weather-provider').value.trim();
-	let providerURL = document.getElementById('provider-url').value.trim();
-	let apiKey = document.getElementById('api-key').value.trim();
-	let zip = document.getElementById('zip-code').value.trim();
-	let countryCode = document.getElementById('country-code').value.trim();
-	if (weatherProvider == '') {
-		responseMessage('You must specify your weather provider.');
-		return;
-	}
-	if (weatherProvider == 'other' && providerURL == '') {
-		responseMessage('You must specify the URL of your weather provider.');
-		return;
-	}
-	if (!((weatherProvider == 'other') || (weatherProvider == 'owm-proxy')) && apiKey == '') {
-		responseMessage('You must specify your API key. If you don\'t have one, pick a proxy option.');
-		return;
-	}
-	if (zip == '') {
-		responseMessage('You must specify your ZIP / postal code.');
-		return;
-	}
-	if (countryCode == '') {
-		responseMessage('You must pick your country.');
-		return;
-	}
-
-	let noPerms;
-
-	if (noPerms) return;
-
-	let url;
-	switch (weatherProvider) {
-		case 'owm':
-			getPermissions('https://api.openweathermap.org/')
-			.then(() => {
-				url = `https://api.openweathermap.org/data/2.5/weather?q=${zip},${countryCode}&APPID=${apiKey}`;
-				getWeather(url);
-			});
-			break;
-		case 'foreca':
-			try {
-				let id;
-				getPermissions('https://fnw-us.foreca.com/')
-				.then(() => {
-					fetch(`https://fnw-us.foreca.com/api/v1/location/search/${zip}?country=${countryCode}&token=${apiKey}`)
-					.then(response => response.json())
-					.then(response => {
-						city = response.locations[0].name;
-						country = response.locations[0].country;
-						id = response.locations[0].id;
-
-						url = `https://fnw-us.foreca.com/api/v1/current/${id}?token=${apiKey}`;
-						getWeather(url);
-					})
-					.catch(error => {
-						console.error(error);
-						responseMessage('An unknown error occurred', false);
-					});
-				})
-				.catch(error => {
-					console.error(error);
-					responseMessage('An unknown error occurred', false);
-				})
-			} catch (error) {
-				console.error(error);
-				responseMessage('An unknown error occurred', false);
-			}
-			break;
-		case 'foreca-eu':
-			try {
-				let id;
-				getPermissions('https://pfa.foreca.com/')
-				.then(() => {
-					fetch(`https://pfa.foreca.com/api/v1/location/search/${zip}?country=${countryCode}&token=${apiKey}`)
-					.then(response => response.json())
-					.then(response => {
-						city = response.locations[0].name;
-						country = response.locations[0].country;
-						id = response.locations[0].id;
-
-						url = `https://pfa.foreca.com/api/v1/current/${id}?token=${apiKey}`;
-						getWeather(url);
-					})
-					.catch(error => {
-						console.error(error);
-						responseMessage('An unknown error occurred', false);
-					});
-				})
-				.catch(error => {
-					console.error(error);
-					responseMessage('An unknown error occurred', false);
-				})
-			} catch (error) {
-				console.error(error);
-				responseMessage('An unknown error occurred', false);
-			}
-			break;
-		case 'other':
-			getPermissions(`${providerURL}`)
-			.then(() => {
-				fetch(`${new URL(providerURL).protocol}//${new URL(providerURL).host}/api/j-settings`)
-				.then(response => response.json())
-				.then(response => {
-					if (response.weather.enabled) {
-						url = `${providerURL}/${countryCode}/${zip}`; 
-						getWeather(url);
-					} else responseMessage('Weather is not enabled for this J variant server')
-				})
-				.catch(error => {
-					console.error(error);
-					responseMessage('Please enter a J variant server URL')
-				})
-			})
-			break;
-		default:
-			getPermissions('https://acmusicext.com/')
-			.then(() => {
-				url = `https://acmusicext.com/api/weather-v1/${countryCode}/${zip}`;
-				getWeather(url);
-			});
-			break;
-	}
-}
-
-function getWeather(url) {
-	let weatherProvider = document.getElementById('weather-provider').value.trim();
-	let proxy = ((weatherProvider == 'owm-proxy') || (weatherProvider == 'other'));
-	let zip = document.getElementById('zip-code').value.trim();
-	let weather;
-
-	let request = new XMLHttpRequest();
-
-	request.onload = function () {
-		let response;
-		try {
-			response = JSON.parse(request.responseText);
-		} catch (Exception) {
-			responseMessage();
-			return;
-		}
-
-		if (request.status == 200) {
-			if (proxy) {
-				city = response.city;
-				country = response.country;
-				weather = response.weather;
-			} else switch (weatherProvider) {
-				case 'foreca':
-					// City and country was handled earlier
-
-					let raining = /rain/i.test(response.weather)
-					let snowing = /rain/i.test(response.weather)
-					if (raining) weather = "Rain"
-					else if (snowing) weather = "Snow"
-					else weather = "Clear"
-
-					break;
-				case 'owm':
-					// City and country
-					city = response.name;
-					country = response.sys.country;
-					weather = response.weather[0].id.toString();
-
-					// Analyzing weather ID to make proper response
-					if (weather.startsWith('6')) weather = "Snow"
-					else if (weather.startsWith('8')) weather = "Clear"
-					else weather = "Rain"
-
-					break;
-			}
-
-			responseMessage(`Success! The current weather status in ${city}, ${country} is "${weather}"`, true);
-		}
-		else {
-			if (response.error) {
-				if ((response.error === "City not found") && (containsSpace(zip))) {
-					response.error += " – Try with only the first part of the ZIP code / postal code."
-				}
-				responseMessage(response.error);
-			}
-			else responseMessage();
-		}
-	}
-
-	request.onerror = () => responseMessage();
-
-	request.open("GET", url, true);
-	request.send();
-}
 
 function updateChildrenState(disabled, childElement){
 	childElement.disabled = disabled
 }
+
+window.saveOptions = saveOptions;
