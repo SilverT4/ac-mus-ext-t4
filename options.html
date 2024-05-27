@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="utf-8">
-	<title>Animal Crossing Music (J variant) - Options</title>
+	<title>Animal Crossing Music (T4 variant) - Options</title>
 	<link rel="stylesheet" href="css/chrome-bootstrap.css">
 	<link rel="stylesheet" href="css/input.css">
 	<link rel="stylesheet" href="css/options.css">
@@ -13,19 +13,23 @@
 	<script src="scripts/options/tune_editor.js"></script>
 	<script src="scripts/background/KKSongs.js"></script>
 	<script src="scripts/options/options.js"></script>
+	<script src="scripts/options/weather_api.js"></script>
 
 </head>
 
 <body class="chrome-bootstrap">
 	<div class="frame">
 		<div class="navigation">
-			<h1>Animal Crossing Music (J variant)</h1>
+			<h1>Animal Crossing Music (T4 variant)</h1>
 			<ul class="menu">
 				<li class="selected">
 					<a href="#options">Options</a>
 				</li>
 				<li class="town-tune-link" id="town-tune-button">
 					<a href="#town-tune">Town Tune Editor</a>
+				</li>
+				<li class="weather-api" id="weather-api">
+					<a href="#weather">Weather Settings</a>
 				</li>
 				<li class="help-link">
 					<a href="#about">About</a>
@@ -97,7 +101,7 @@
 						</div>
 						<div class="radio">
 							<input id="live" name="weather-choice" type="radio"><label
-								for="live"><span><span></span></span>Live Weather <a href="#live-weather-location"
+								for="live"><span><span></span></span>Live Weather <a href="#weather"
 									id="live-weather-location-link" class="exclamation">!</a></label>
 						</div>
 						<div class="radio">
@@ -204,7 +208,7 @@
 						</div>
 					</section>
 
-					<h3>Live Weather Location</h3>
+					<!-- <h3>Live Weather Location</h3>
 
 					<section id="live-weather-location">
 						<p>Select the location to fetch the live weather information from. The live weather synchronizes
@@ -491,7 +495,7 @@
 							<button type="button" id="update-location">Update Location</button>
 							<p id="weather-response"></p>
 						</div>
-					</section>
+					</section> -->
 
 				</div>
 			</div>
@@ -527,6 +531,75 @@
 				</div>
 			</div>
 
+			<div id="weather">
+				<header>
+					<h1>WeatherAPI Setup</h1>
+				</header>
+				<div class="content">
+					<section>
+						<h3>API Key</h3>
+						<div class="api-key">
+							<p>Input your WeatherAPI key.<br/>To get your API key, follow the instructions <a href="https://github.com/SilverT4/ac-mus-ext-t4/blob/develop/weather.md">here</a>.</p>
+							<input id="wxapi-key" value="">
+						</div>
+					</section>
+					<section>
+						<h3>Location Setup</h3>
+						<div class="location-setup">
+							<p>Choose a location to get weather data from. By default, the extension uses your computer's IP address (<tt>auto:ip</tt>)</p>
+							<div class="radio">
+								<input type="radio" id="local-ip" name="location-type"><label for="local-ip"><span><span></span></span>Use your computer's IP address</label>
+							</div>
+							<div class="radio">
+								<input type="radio" id="ip-input" name="location-type"><label for="ip-input"><span><span></span></span>Use another IP address</label>
+								<br/>
+								<input id="ip-address" size="15" disabled>
+							</div>
+							<div class="radio">
+								<input type="radio" id="lat-lon" name="location-type"><label for="lat-lon"><span><span></span></span>Latitude, Longitude</label>
+								<br/>
+								<input id="latitude" type="text" size="7" disabled>
+								<input id="longitude" type="text" size="7" disabled>
+							</div>
+							<div class="radio">
+								<input type="radio" id="zip-code" name="location-type"><label for="zip-code"><span><span></span></span>US ZIP Code</label>
+								<br/>
+								<input id="us-zip" type="text" size="7" disabled>
+							</div>
+							<div class="radio">
+								<input type="radio" id="uk-postal" name="location-type"><label for="uk-postal"><span><span></span></span>UK Postal Code</label>
+								<br/>
+								<input id="uk-post" type="text" size="7" disabled>
+							</div>
+							<div class="radio">
+								<input type="radio" id="canada-post" name="location-type"><label for="canada-post"><span><span></span></span>Canada Postal Code</label>
+								<br/>
+								<input id="ca-post" type="text" size="7" disabled>
+							</div>
+							<div class="radio">
+								<input type="radio" id="metar" name="location-type"><label for="metar"><span><span></span></span>METAR Code</label>
+								<br/>
+								<input id="metar-code" type="text" size="7" disabled>
+							</div>
+							<div class="radio">
+								<input type="radio" id="iata" name="location-type"><label for="iata"><span><span></span></span>IATA Code</label>
+								<br/>
+								<input id="iata-code" type="text" size="7" disabled>
+							</div>
+							<div class="radio">
+								<input type="radio" id="search" name="location-type"><label for="search"><span><span></span></span>Search for location</label>
+								<br/>
+								<input type="search" id="search-query" size="30" disabled>
+							</div>
+							<div class="radio">
+								<input type="radio" id="last-used-search" name="location-type" disabled><label for="last-used-search"><span><span></span></span>Last used search location: N/A</label>
+							</div>
+						</div>
+					</section>
+				</div>
+			</div>
+			
+
 			<div id="about">
 				<header>
 					<h1>About</h1>
@@ -536,7 +609,7 @@
 					<div class="image-container">
 						<img src="img/icons/icon/128.png" width="48" height="48">
 						<div class="image-container-text">
-							<h2>Animal Crossing Music (J variant)</h2>
+							<h2>Animal Crossing Music (T4 variant)</h2>
 							<span>Play Animal Crossing's smooth background music in real-time throughout your
 								day.</span>
 							<br />
@@ -548,15 +621,16 @@
 						<a target="_blank" href="https://discord.gg/4FMrEF8"><button 
 							role="link">Join the regular extension's official Discord server</button></a>
 						<a target="_blank"
-							href="https://github.com/jbmagination/ac-music-extension/issues"><button
-								role="link">Report an issue with the J variant</button></a>
+							href="https://github.com/SilverT4/ac-mus-ext-t4/issues"><button
+								role="link">Report an issue with the T4 variant</button></a>
 						<a target="_blank"
-							href="https://github.com/jbmagination/ac-music-extension"><button
+							href="https://github.com/SilverT4/ac-mus-ext-t4"><button
 								role="link">GitHub repository</button></a>
 					</div>
 
 					<br />
 					<h3>Contributors</h3>
+					<p>The T4 variant was made by <a href="https://github.com/SilverT4">SilverT4</a> for a silly reason.</p>
 					<p>The J variant was made by <a href="https://jbmagination.com">JBMagination</a> (and <a href="https://github.com/jbmagination/ac-music-extension-j/graphs/contributors">these other lovelies</a>) after over 3 years of no upstream maintenance, and a strong love for Animal Crossing. <b>It is not associated with upstream in any way.</b></p>
 					<p>Extension originally created by <a href="https://www.neogaf.com/members/andrex.20593/">Andrex</a> (1.0), <a href="https://www.neogaf.com/members/blazescorch2.142800/">blazescorch2</a> (2.0), and <a href="https://pikadude.me">PikaDude</a> (alongside <a href="https://github.com/animal-crossing-music-extension/ac-music-extension/graphs/contributors">many others</a>) (3.0 and 4.0).</p>
 					<p>Idea for extension taken from <a href="https://b-lee.net/">Brian Lee</a>'s <a href="https://tane.us/ac/">Animal Crossing music website</a>.</p>
@@ -570,6 +644,11 @@
 				</header>
 
 				<div class="content">
+					<h3>T4Version 0.0.1<span class="changelog-date"> - 27th of May 2024</span></h3>
+					<ul class="changelog-list">
+						<li>Initial version</li>
+						<li>Put in barebones thing for WeatherAPI usage</li>
+					</ul>
 					<h3>JVersion 1.0.0<span class="changelog-date"> - ???</span></h3>
 					<ul class="changelog-list">
 						<li>Added Firefox support</li>
