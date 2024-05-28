@@ -33,7 +33,6 @@ function WeatherManager(key, loc) {
     this.setLocation = function(newLocation) {
         loc = newLocation;
         console.log("New location: " + loc);
-        restartCheckLoop(); // as a just in case
     };
 
     // Checks the weather, and restarts the loop.
@@ -54,10 +53,12 @@ function WeatherManager(key, loc) {
                 let response = JSON.parse(request.responseText);
                 console.log(response);
                 if (response.current) {
+                    let oldWeather = self.getWeather();
                     wxCode = response.current.condition.code;
                     weather = sun.includes(wxCode) ? "Clear" : rain.includes(wxCode) ? "Rain" : snow.includes(wxCode) ? "Snow" : "Clear"; // using "Clear" as a fallback
+                    if (oldWeather !== weather && typeof callback === 'function') callback();
                 } else {
-                    weather = "Clear";
+                    if (!weather) weather = "Clear";
                     console.warn("API Response did not include current weather conditions, defaulting to Clear.", response);
                     alert("API Response did not include the current conditions for the specified location, please check your dev console for more details.");
                 }
