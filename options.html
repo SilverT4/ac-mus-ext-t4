@@ -552,13 +552,15 @@
 							</div>
 							<div class="radio">
 								<input type="radio" id="ip-input" name="location-type"><label for="ip-input"><span><span></span></span>Use another IP address</label>
-								<br/>
+								<span></span>
 								<input id="ip-address" size="15" disabled>
 							</div>
 							<div class="radio">
 								<input type="radio" id="lat-lon" name="location-type"><label for="lat-lon"><span><span></span></span>Latitude, Longitude</label>
 								<br/>
+								<label for="latitude">Latitude:</label>
 								<input id="latitude" type="text" size="7" disabled>
+								<label for="longitude">Longitude:</label>
 								<input id="longitude" type="text" size="7" disabled>
 							</div>
 							<div class="radio">
@@ -590,10 +592,16 @@
 								<input type="radio" id="search" name="location-type"><label for="search"><span><span></span></span>Search for location</label>
 								<br/>
 								<input type="search" id="search-query" size="30" disabled>
+								<button id="commit-search" disabled>Search</button>
 							</div>
 							<div class="radio">
 								<input type="radio" id="last-used-search" name="location-type" disabled><label for="last-used-search"><span><span></span></span>Last used search location: N/A</label>
 							</div>
+						</div>
+					</section>
+					<section>
+						<div class="footer">
+							<button id="save_wx_loc">Save location settings</button>
 						</div>
 					</section>
 				</div>
