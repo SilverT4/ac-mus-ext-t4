@@ -23,7 +23,7 @@
          "64": "img/icons/status/paused/64.png",
          "32": "img/icons/status/paused/32.png"
       },
-      "default_title": "Animal Crossing Music (J variant)"
+      "default_title": "Animal Crossing Music (T4 variant)"
    },
    "description": "Play Animal Crossing's smooth background music in real-time throughout your day.",
    "icons": {
@@ -32,7 +32,7 @@
       "32": "img/icons/icon/32.png"
    },
    "manifest_version": 2,
-   "name": "Animal Crossing Music (J variant)",
+   "name": "Animal Crossing Music (T4 variant)",
    "options_ui": {
       "page": "options.html",
       "open_in_tab": true
@@ -51,5 +51,5 @@
       "background",
       "<all_urls>"
    ], 
-   "version": "1.0.0"
+   "version": "0.0.1"
 }
