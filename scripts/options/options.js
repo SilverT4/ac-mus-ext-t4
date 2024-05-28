@@ -66,13 +66,15 @@ window.onload = function () {
 	//document.getElementById('update-location').onclick = validateWeather;
 	document.getElementById('tab-audio-reduce-value').onchange = saveOptions;
 
-	exclamationElements.forEach(el => {
+	if (!window.location.href.includes('options2.html')) {
+		exclamationElements.forEach(el => {
 		document.getElementById(el).onclick = () => {
 			let element = document.getElementById(el.split('-link')[0]);
 			element.style.animation = 'scrolled 1s';
 			element.onanimationend = () => element.style.animation = null;
 		}
-	});
+		});
+	}
 
 	let enableBackgroundEl = document.getElementById('enable-background');
 	if (!(navigator.userAgentData)) enableBackgroundEl.disabled = true;
