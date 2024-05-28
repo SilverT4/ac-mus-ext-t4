@@ -45,7 +45,8 @@
    "permissions": [
       "notifications",
       "storage",
-      "https://acmusicext.com/"
+      "https://acmusicext.com/",
+       "https://api.weatherapi.com/"
    ],
    "optional_permissions": [
       "background",
